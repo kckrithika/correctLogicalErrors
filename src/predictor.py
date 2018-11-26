@@ -14,7 +14,7 @@ def predict():
 	test_output = []
 	
 	# 1.1 Load the sequences into lists
-	with open("InputSequence.txt") as fp:
+	with open("../sample intermediate files/InputSequence.txt") as fp:
 		for line in fp:
 			sequence = json.loads(line)
 			length = len(sequence)						
@@ -97,13 +97,13 @@ def predict():
 
 	# 3.3 Load the syntax check matrix into list of lists
 	matrix=[]
-	matrixFile = open("matrix.txt", "r")
+	matrixFile = open("../sample intermediate files/matrix.txt", "r")
 	for line in matrixFile:
 		matrix.append(json.loads(line))
 	
 	# 3.4 Weights file should exist. Load weights (which we had written in lists form) and convert into numpy array
 	weights=[]
-	WeightsFile = open("weights.txt", "r")
+	WeightsFile = open("../sample intermediate files/weights.txt", "r")
 	for line in WeightsFile:
 		weights.append(np.asarray(json.loads(line)))
 	
@@ -128,7 +128,7 @@ def predict():
 	total=0;
 	correct=0;
 	predicted=[]
-	result_file = open("result_file.txt", "w")
+	result_file = open("../sample intermediate files/result_file.txt", "w")
 	previous = 0
 	for i in range(0, length):
 		result_file.write("Case "+str(i)+":\n")
