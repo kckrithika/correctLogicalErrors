@@ -1,0 +1,37 @@
+_________________________________________________________________________________________________________________________________________
+
+														PRE-REQUISITE
+_________________________________________________________________________________________________________________________________________
+
+weights.txt file is necessary for running this code.
+
+
+
+_________________________________________________________________________________________________________________________________________
+
+														SERVER PERMISSION
+_________________________________________________________________________________________________________________________________________
+
+
+Server should have permission for creating and writing files.
+
+or else
+
+Manullay create the following files
+
+	result_file.txt
+	input.txt
+	partial.c
+	preprocessed.txt
+	InputSequence.txt
+	error.txt
+	AST_file.txt
+
+_________________________________________________________________________________________________________________________________________
+	
+														DEFAULT PATH
+_________________________________________________________________________________________________________________________________________
+
+
+
+All the above mentioned file should be placed in the same directory where the predictor.py file resides. Or else the path should be configured accordingly in predictor.py
