@@ -1,0 +1,77 @@
+#title
+{
+	height:10%;
+	width:100%;
+	border:1px solid black;
+	font-family: "Times New Roman", Times, serif;
+	text-shadow: 0.07em 0.07em black;
+	color: rgb(0, 0, 150);
+}
+
+#editor
+{
+	height:75%;
+	overflow:auto;
+	border:1px solid black;
+}
+
+table
+{
+	width:100%;
+	height:100%;
+}
+td
+{
+	vertical-align:top;
+}
+font
+{
+	font-size: 1em;
+	font-family: "Times New Roman", Times, serif;
+	text-shadow: 0.07em 0.07em black;
+	color: rgb(0, 0, 150);
+}
+img
+{
+	width:100%;
+	height:auto;
+}
+
+#CodeSpaceContainer
+{
+	width:80%;
+}
+#CodeSpace
+{
+	width:100%;
+	height:100%;
+	font-size:1em;
+	font-family: "Times New Roman", Times, serif;
+}
+#OutputSection
+{
+	width:100%;
+	height:15%;
+	border:1px solid black;
+}
+#run
+{
+	float:left;
+	width:9%;
+	height:auto;
+}
+#run:hover
+{
+	cursor:pointer;
+}
+#input
+{
+	width:30%;
+	height:auto;
+}
+#output
+{
+	height:100%;
+	width:61%;
+	float:right;
+}

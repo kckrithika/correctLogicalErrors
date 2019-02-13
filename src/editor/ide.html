@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="title"><h1> Code master </h1></div>
+		<div id="editor">
+			<table id="table">
+				<tr>
+					<td>
+						<font id="LineNumber">1</font>
+					</td>
+					<td id="CodeSpaceContainer">
+						<textarea id="CodeSpace" onkeypress="enterAndTabHandler(event, this)">Your code</textarea>
+					</td>
+					<td>
+						<p>suggestion space</p>
+						<p id="suggestion">  </p>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="OutputSection">
+			<button id="run" onclick="compileAndRun()"><img src="run.png"></img></button>
+			<div id="output"> output</div>
+			input:<br>
+			<textarea id="input"></textarea>
+		</div>
+	</body>
+</html>
