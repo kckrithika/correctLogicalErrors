@@ -1,6 +1,146 @@
 import tensorflow as tf
 import numpy as np
 import json
+import ASTProducer
+
+def getName(number):
+	if number == 1:
+		return "ArrayDecl"
+	elif number == 2:
+		return "ArrayRef"
+	elif number == 3:
+		return "Assignment"
+	elif number == 4:
+		return "+"
+	elif number == 5:
+		return "Break"
+	elif number == 6:
+		return "Case"
+	elif number == 7:
+		return "Cast"
+	elif number == 8:
+		return "Compound"
+	elif number == 9:
+		return "CompoundLiteral"
+	elif number == 10:
+		return "Constant" 
+	elif number == 11:
+		return "Continue"
+	elif number == 12:
+		return "Decl"
+	elif number == 13:
+		return "DeclList"
+	elif number == 14:
+		return "Default"
+	elif number == 15:
+		return "DoWhile"
+	elif number == 16:
+		return "EllipsisParam"
+	elif number == 17:
+		return "EmptyStatement"
+	elif number == 18:
+		return "Enum"
+	elif number == 19:
+		return "Enumerator"
+	elif number == 20:
+		return "EnumeratorList"
+	elif number == 21:
+		return "ExprList"
+	elif number == 22:
+		return "Pragma"
+	elif number == 23:
+		return "For"
+	elif number == 24:
+		return "FuncCall"
+	elif number == 25:
+		return "FuncDecl"
+	elif number == 26:
+		return "FuncDef"
+	elif number == 27:
+		return "Goto"
+	elif number == 28:
+		return "ID"
+	elif number == 29:
+		return "IdentifierType"
+	elif number == 30:
+		return "InitList"
+	elif number == 31:
+		return "Label"
+	elif number == 32:
+		return "NamedInitializer"
+	elif number == 33:
+		return "ParamList"
+	elif number == 34:
+		return "PtrDecl"
+	elif number == 35:
+		return "Return"
+	elif number == 36:
+		return "Struct"
+	elif number == 37:
+		return "StructRef"
+	elif number == 38:
+		return "Switch"
+	elif number == 39:
+		return "TernaryOp"
+	elif number == 40:
+		return "TypeDecl"
+	elif number == 41:
+		return "Typedef"
+	elif number == 42:
+		return "Typename"
+	elif number == 43:
+		return "UnaryOp"
+	elif number == 44:
+		return "sizeof"
+	elif number == 45:
+		return "While"
+	elif number == 46:
+		return "If"
+	elif number == 47:
+		return "-"
+	elif number == 48:
+		return "*"
+	elif number == 49:
+		return "/"
+	elif number == 50:
+		return "%"
+	elif number == 51:
+		return "++"
+	elif number == 52:
+		return "--"
+	elif number == 53:
+		return "=="
+	elif number == 54:
+		return "!="
+	elif number == 55:
+		return ">"
+	elif number == 56:
+		return "<"
+	elif number == 57:
+		return "<="
+	elif number == 58:
+		return ">="
+	elif number == 59:
+		return "&&"
+	elif number == 60:
+		return "||"
+	elif number == 61:
+		return "!"
+	elif number == 62:
+		return "&"
+	elif number == 63:
+		return "|"
+	elif number == 64:
+		return "^"
+	elif number == 65:
+		return "~"
+	elif number == 66:
+		return "<<"
+	elif number == 67:
+		return ">>"
+	else:
+		return 0
+	
 
 def predict():
 
@@ -14,7 +154,7 @@ def predict():
 	test_output = []
 	
 	# 1.1 Load the sequences into lists
-	with open("../sample intermediate files/InputSequence.txt") as fp:
+	with open("InputSequence.txt") as fp:
 		for line in fp:
 			sequence = json.loads(line)
 			length = len(sequence)						
@@ -22,7 +162,7 @@ def predict():
 				test_input.append(sequence[:i+1])	
 				test_output.append(sequence[i+1])
 	
-	maxlength = len(test_input[0])
+	maxlength = 76
 	for i in test_input:
 		l = len(i)
 		if maxlength<l:
@@ -78,8 +218,8 @@ def predict():
 
 	# 2.9 Configure the initialize all variables function
 
-	#init_op = tf.initialize_all_variables()
-	init_op = tf.global_variables_initializer()
+	init_op = tf.initialize_all_variables()
+
 
 	#-------------------------------------------------------------------------------------------------------------------------------------#
 	
@@ -95,29 +235,24 @@ def predict():
 	#writer = tf.train.SummaryWriter("logs/",sess.graph)
 	writer = tf.summary.FileWriter("logs/",sess.graph)
 
-	# 3.3 Load the syntax check matrix into list of lists
+
+	"""# 3.3 Load the syntax check matrix into list of lists
 	matrix=[]
-	matrixFile = open("../sample intermediate files/matrix.txt", "r")
+	matrixFile = open("matrix.txt", "r")
 	for line in matrixFile:
-		matrix.append(json.loads(line))
+		matrix.append(json.loads(line))"""
 	
 	# 3.4 Weights file should exist. Load weights (which we had written in lists form) and convert into numpy array
 	weights=[]
-	WeightsFile = open("../sample intermediate files/weights.txt", "r")
+	WeightsFile = open("weights.txt", "r")
 	for line in WeightsFile:
 		weights.append(np.asarray(json.loads(line)))
 	
-	for i in range(len(weights)):
-		print(weights[i])
 	i=0
-	print("Before assigning: ")
-	for v in tf.trainable_variables():
-		print(sess.run(v))
 		
 	# 3.5 Assign the loaded weights to the trainable variables
-	print("After assigning: ")
 	for v in tf.trainable_variables():
-		print(sess.run(v.assign(weights[i])))
+		sess.run(v.assign(weights[i]))
 		i=i+1
 	
 	# 3.5 Predict
@@ -128,7 +263,7 @@ def predict():
 	total=0;
 	correct=0;
 	predicted=[]
-	result_file = open("../sample intermediate files/result_file.txt", "w")
+	result_file = open("result_file.txt", "w")
 	previous = 0
 	for i in range(0, length):
 		result_file.write("Case "+str(i)+":\n")
@@ -138,28 +273,16 @@ def predict():
 		result_file.write("Max probability is: "+str(maxi)+"\n")"""
 		sublength = len(result[i])
 		assert(sublength==68)
-		"""if(i!=0):
-			print("Syntax based shortlisting..")
-			for j in range(0, sublength):
-				if(matrix[previous][j]==1):
-					print(j)
-			copy_list = [x for k, x in enumerate(result[i]) if matrix[previous][k]==1]
-			
-		else:"""
 		copy_list = list(result[i])
 		copy_list.sort()
-		print(result[i])
-		print(copy_list)
 		temp = []
 		j=len(copy_list)-1
-		print("Length of copy list is: "+str(j+1))
 		count=0
 		while(count<=4 and j>=0):
 			indices = [k for k, x in enumerate(result[i]) if x==copy_list[j]]
 			temp+=indices
 			j = j-1
 			count=count+1
-		print(temp)
 		if(len(temp)):
 			previous=temp[0]					
 		result_file.write("Classes with max probability: ")
@@ -169,12 +292,27 @@ def predict():
 
 	# 3.7 Calculate accuracy
 	assert(len(predicted)==length)
+	suggestion=[]
 	for i in range(0, length):
 		if(test_output[i] in predicted[i]):
 			correct+=1
+		else:
+			suggestion.append(getName(test_output[i])+" should be replaced by "+getName(predicted[i][0]))
 		result_file.write(str(predicted[i])+" "+str(test_output[i])+"\n")
 
 	accuracy = float(correct/length) * 100
 	result_file.write("\nAccuracy is: "+str(accuracy))
 	
 	sess.close()
+	suggestion_dict = dict(enumerate(suggestion))
+	suggestion_dict["count"] = len(suggestion)
+	
+	string = ""
+	for i in suggestion_dict:
+		string = string+str(i)+" : "+str(suggestion_dict[i])+"\n</br></br>"
+	return string
+	return json.dumps(suggestion_dict)
+
+"""if __name__ == '__main__':
+	ASTProducer.produce("partial.c")
+	print predict()"""
